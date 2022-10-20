@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Assigned date</th>
+      <th>Completion date</th>
+      <th>Submission date</th>
+      <th>Reporter</th>
+      <% if current_user.has_role?(:developer) || current_user.has_role?(:lead) %>
+        <th>Status</th>
+      <% end %>
+      <% if current_user.has_role?(:lead) %>
+        <th>Developer</th>
+      <% end %>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.assigned_date %></td>
+        <td><%= task.completion_date %></td>
+        <td><%= task.submission_date %></td>
+        <td><%= task.reporter.name %></td>
+        <% if current_user.has_role?(:developer) || current_user.has_role?(:lead) %>
+          <td><%= task.status %></td>
+        <% end %>
+        <% if current_user.has_role?(:lead) %>
+          <% dev_id=DeveloperTaskMapping.where(task: task.id).pluck(:user_id) %>
+          <td><%= User.where(id: dev_id).pluck(:name).uniq  %></td>
+
+        <% end %>
+        <td><%= link_to 'Show', task %></td>
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <% if current_user.has_role?(:manager) %>
+          <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>  
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.has_role?(:manager) %>
+  <%= link_to 'New Task', new_task_path %>
+<% end %>  
+<br/>
+<% if current_user.has_role?(:manager) || current_user.has_role?(:lead) %>
+  <%= link_to 'Download Report', tasks_generate_report_path %>
+<% end %>  

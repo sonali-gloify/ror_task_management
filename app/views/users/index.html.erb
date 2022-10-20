@@ -1,0 +1,43 @@
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Contact</th>
+      <th>Role</th>
+      <% if @current_user.has_role?(:manager) %>
+        <th>Lead</th>
+      <% end %>
+      <th</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @current_user.has_role?(:lead) %>
+      <% @current_user.developers.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.contact %></td>
+          <td><%= user.roles.pluck(:name) %></td>
+        </tr>
+      <% end %>  
+    <% elsif @current_user.has_role?(:manager) %>  
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.contact %></td>
+          <td><%= user.roles.pluck(:name) %></td>
+          <% if @current_user.has_role?(:manager) %>
+            <td><%= User.where(id: user.lead_id).pluck(:name) %></td>
+          <% end %>  
+          <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        </tr>
+      <% end %>  
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'View User Updation Logs', users_logs_url, class:"btn btn-success" %>

@@ -1,0 +1,12 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Tasks") do |sheet|
+  sheet.merge_cells "A1:F1"
+  sheet.add_row ["Task Data"]
+  sheet.add_row ["ID", "Name", "Assigned Date", "Completion Date", "Submission Date", "Reporter",  "Assignee"]
+    @tasks.each do |task|
+      reporter = User.where(id: task.reporter_id).pluck(:name)
+      dev_id = DeveloperTaskMapping.where(task: task.id).pluck(:user_id)
+      assignee = User.where(id: dev_id).pluck(:name)
+      sheet.add_row [task.id, task.name, task.assigned_date, task.completion_date, task.submission_date, reporter, assignee]
+    end
+end

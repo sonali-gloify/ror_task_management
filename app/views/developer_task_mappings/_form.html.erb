@@ -1,0 +1,27 @@
+<%= form_for(developer_task_mapping) do |f| %>
+  <% if developer_task_mapping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(developer_task_mapping.errors.count, "error") %> prohibited this developer_task_mapping from being saved:</h2>
+
+      <ul>
+      <% developer_task_mapping.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :developer %>
+    <%= f.number_field :developer %>
+  </div>
+
+  <div class="field">
+    <%= f.label :task %>
+    <%= f.number_field :task %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

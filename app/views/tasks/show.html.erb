@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @task.name %>
+</p>
+
+<p>
+  <strong>Assigned date:</strong>
+  <%= @task.assigned_date %>
+</p>
+
+<p>
+  <strong>Completion date:</strong>
+  <%= @task.completion_date %>
+</p>
+
+<p>
+  <strong>Submission date:</strong>
+  <%= @task.submission_date %>
+</p>
+
+<p>
+  <strong>Reporter:</strong>
+  <%= @task.reporter.name %>
+</p>
+
+<% if current_user.has_role?(:developer) || current_user.has_role?(:lead) %>
+  <p>
+  <strong>Status:</strong>
+  <%= @task.status %>
+  </p>
+<% end %>
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

@@ -1,0 +1,136 @@
+<h1>Editing Task</h1>
+
+<%= form_for(@task) do |f| %>
+    <% if @task.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+  
+        <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    
+    <% if current_user.has_role?(:manager) %>
+        <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        </div>
+    
+        <div class="field">
+        <%= f.label :assigned_date %>
+        <%= f.date_select :assigned_date %>
+        </div>
+    
+        <div class="field">
+        <%= f.label :completion_date %>
+        <%= f.date_select :completion_date %>
+        </div>
+    
+        <div class="field">
+        <%= f.label :submission_date %>
+        <%= f.date_select :submission_date %>
+        </div>
+    
+        <div class="field">
+        <%= f.label :lead %>
+        <%= f.collection_select :reporter_id, User.with_role(:lead), :id, :name %>
+        </div>
+    
+        <div class="actions">
+        <%= f.submit %>
+        </div>
+    <% elsif current_user.has_role?(:lead) %>
+        <p>
+        <strong>Name:</strong>
+        <%= @task.name %>
+        </p>
+    
+        <p>
+        <strong>Assigned date:</strong>
+        <%= @task.assigned_date %>
+        </p>
+    
+        <p>
+        <strong>Completion date:</strong>
+        <%= @task.completion_date %>
+        </p>
+    
+        <p>
+        <strong>Submission date:</strong>
+        <%= @task.submission_date %>
+        </p>
+    
+        <p>
+        <strong>Reporter:</strong>
+        <%= @task.reporter.name %>
+        </p>  
+        
+        <p>
+        <strong>Reporter:</strong>
+        <%= @task.status %>
+        </p> 
+        
+        <div class="field">
+        <%= f.label :status %>
+        <%= f.collection_select :status, Task::TASK_STATUS, :to_s, :to_s %>
+        </div>
+       
+        <%= fields_for :developer_task_mapping do |developer_assigned| %>
+            <div class="field">
+            <%= developer_assigned.label :developer %>
+            <%= developer_assigned.collection_select :user_id, current_user.developers, :id, :name %>
+            </div>
+        <% end %>
+        
+        <br/>
+        <div class="actions">
+        <%= f.submit %>
+        </div>
+
+    <% elsif current_user.has_role?(:developer) %>
+        <p>
+        <strong>Name:</strong>
+        <%= @task.name %>
+        </p>
+    
+        <p>
+        <strong>Assigned date:</strong>
+        <%= @task.assigned_date %>
+        </p>
+    
+        <p>
+        <strong>Completion date:</strong>
+        <%= @task.completion_date %>
+        </p>
+    
+        <p>
+        <strong>Submission date:</strong>
+        <%= @task.submission_date %>
+        </p>
+    
+        <p>
+        <strong>Reporter:</strong>
+        <%= @task.reporter.name %>
+        </p>   
+        
+
+        <div class="field">
+        <%= f.label :status %>
+        <%= f.collection_select :status, Task::TASK_STATUS, :to_s, :to_s %>
+        </div>
+
+        <div class="actions">
+        <%= f.submit %>
+        </div>    
+    <% end %>
+  <% end %>
+  
+
+
+
+<%= link_to 'Show', @task %> |
+<%= link_to 'Back', tasks_path %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Developer:</strong>
+  <%= @developer_task_mapping.developer %>
+</p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @developer_task_mapping.task %>
+</p>
+
+<%= link_to 'Edit', edit_developer_task_mapping_path(@developer_task_mapping) %> |
+<%= link_to 'Back', developer_task_mappings_path %>

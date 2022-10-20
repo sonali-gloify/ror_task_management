@@ -1,0 +1,53 @@
+<%= form_for(@user) do |f| %>
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this task from being saved:</h2>
+  
+        <ul>
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+          
+    <ul>
+        <li>Name:<%= @user.name %></li>  
+        <li>Email:<%= @user.email %></li> 
+        <li>Contact:<%= @user.contact %></li>   
+    </ul>  
+   
+    <div class="form_row">
+      <label>Select New role:</label>
+      <% if @user.has_role?(:developer) %>
+        <br><%= radio_button_tag 'newrole', 'manager' %> Manager
+        <br><%= radio_button_tag 'newrole', 'lead' %> Lead
+        <br><%= radio_button_tag 'newrole', 'developer', checked = true %> Developer
+      <% elsif @user.has_role?(:lead) %>
+        <br><%= radio_button_tag 'newrole', 'manager' %> Manager
+        <br><%= radio_button_tag 'newrole', 'lead', checked = true %> Lead
+        <br><%= radio_button_tag 'newrole', 'developer' %> Developer
+      <% elsif @user.has_role?(:manager) %>
+        <br><%= radio_button_tag 'newrole', 'manager', checked = true  %> Manager
+        <br><%= radio_button_tag 'newrole', 'lead'%> Lead
+        <br><%= radio_button_tag 'newrole', 'developer' %> Developer    
+      <% else %>  
+        <br><%= radio_button_tag 'newrole', 'manager' %> Manager
+        <br><%= radio_button_tag 'newrole', 'lead' %> Lead
+        <br><%= radio_button_tag 'newrole', 'developer' %> Developer  
+      <% end %>  
+    </div>
+    
+    <% if @user.has_role?(:developer) %>
+      
+      <div class="field">
+        <%= f.label :lead %>
+        <%= f.collection_select :lead_id, User.with_role(:lead), :id, :name %>
+      </div>
+    <% end %>  
+     <br/>    
+  
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>

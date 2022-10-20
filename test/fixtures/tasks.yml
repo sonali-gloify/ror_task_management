@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  assigned_date: 2022-10-13
+  completion_date: 2022-10-13
+  submission_date: 2022-10-13
+  assignee: MyString
+  reporter: MyString
+
+two:
+  name: MyString
+  assigned_date: 2022-10-13
+  completion_date: 2022-10-13
+  submission_date: 2022-10-13
+  assignee: MyString
+  reporter: MyString

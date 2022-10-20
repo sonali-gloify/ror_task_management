@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Developer Task Mappings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Developer</th>
+      <th>Task</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @developer_task_mappings.each do |developer_task_mapping| %>
+      <tr>
+        <td><%= developer_task_mapping.developer %></td>
+        <td><%= developer_task_mapping.task %></td>
+        <td><%= link_to 'Show', developer_task_mapping %></td>
+        <td><%= link_to 'Edit', edit_developer_task_mapping_path(developer_task_mapping) %></td>
+        <td><%= link_to 'Destroy', developer_task_mapping, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Developer Task Mapping', new_developer_task_mapping_path %>
